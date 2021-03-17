@@ -15,7 +15,12 @@ public class DbApi {
     }
 
 
-
+    /*
+        Adding this probably seemed like a good idea to someone
+        to cut down on the code in the rest of the app, but really
+        it just spread an SQL Injection vulnerability to more places
+        in the app.
+     */
     public List<Map<String, Object>> executeQuery(String query) {
 
 
@@ -24,8 +29,9 @@ public class DbApi {
         Statement stm=null;
 
         try {
-            stm = dbConnection.createStatement();
             String sqlquery = String.format(query);
+            stm = dbConnection.createStatement();
+
             System.out.println("executing: " + sqlquery);
             ResultSet res = stm.executeQuery(sqlquery);
             resultData = resultSetAsList(res);
@@ -42,6 +48,15 @@ public class DbApi {
     }
 
 
+    /*
+        The status field should not be  String, it is an int.
+        Converting this to an int would remove the SQL intjection problem in this method
+        but if we did not also change the executeQuery to use a PreparedStatement then
+        we might leave ourselves vulnerable to another programmer changing this to
+        a String in the future and adding the vulnerability back into our code.
+
+        int might seem like an easy fix. But we should really make the full change.
+     */
     public List<String> getTodosOfStatus(String status) {
 
         List<String> todos = new ArrayList<>();

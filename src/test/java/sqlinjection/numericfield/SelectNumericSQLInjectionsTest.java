@@ -19,6 +19,7 @@ class SelectNumericSQLInjectionsTest {
     /* examples of what SQL Injection is capable of */
 
     static DbApi myDB;
+    Integer field=0;
 
     @BeforeAll
     static void setupDB(){
@@ -46,6 +47,9 @@ class SelectNumericSQLInjectionsTest {
 
         Assertions.assertEquals(3, descriptions.size());
         Assertions.assertEquals("Do this activity", descriptions.get(0));
+
+        //could be local
+        field = 2;
 
     }
 
@@ -147,6 +151,20 @@ class SelectNumericSQLInjectionsTest {
     // TODO: more select examples
     // TODO: more query formats e.g. ' and " in the middle of a string
     // TODO: DROP Tables and more manipulative injections
+
+
+    @Test
+    void dropTablesInASelect(){
+
+        List<String> result = myDB.getTodosOfStatus("0; DROP TABLE todos;");
+
+        Assertions.assertEquals(2, result.size());
+
+        // oops we broke it in the last injection
+        List<String> result2 = myDB.getTodosOfStatus("0");
+        Assertions.assertEquals(0, result2.size());
+    }
+
     // TODO: other query types UPDATE, INSERT, DELETE etc.
     // TODO: revealing errors in reported exceptions
     // TODO: combining multiple commands in one query SELECT *;UPDATE *;etc.

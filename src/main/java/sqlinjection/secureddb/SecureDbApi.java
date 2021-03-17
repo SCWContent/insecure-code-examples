@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/*
+    This version of the DB API uses prepared statements
+ */
 public class SecureDbApi {
 
     private final Connection dbConnection;
@@ -15,7 +18,22 @@ public class SecureDbApi {
         this.dbConnection = connection;
     }
 
+    /*
+        Because the previous programmer used a String as the parameter we
+        have maintained the interface. But to use a prepared statement we
+        convert the String to an int to pass it through to the prepared statement.
+     */
     public List<String> getTodosOfStatus(String status) {
+        try {
+            return getTodosOfStatus(Integer.getInteger(status));
+        }catch(Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+
+        return new ArrayList<>();
+    }
+
+    public List<String> getTodosOfStatus(int status) {
 
         List<String> todos = new ArrayList<>();
 
@@ -23,7 +41,7 @@ public class SecureDbApi {
 
         try {
             pstm = dbConnection.prepareStatement("SELECT description from todos where status= ?");
-            pstm.setString(1, status);
+            pstm.setInt(1, status);
             ResultSet res = pstm.executeQuery();
 
             while(res.next()){

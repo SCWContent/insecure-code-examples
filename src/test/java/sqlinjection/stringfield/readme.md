@@ -141,7 +141,6 @@ To do that I can use `rewriteLastAssignment` to change the assignment where I de
 {{{ qualifier }}}.prepareStatement({{{ markedElement.arguments.0}}}{{#arguments}}, {{{.}}}{{/arguments}})
 ```
 
-_Authors Note: The above wasn't as easy as I'd hoped because there is currently no mustache helper in the gui for these variables, and this isn't listed in the documentation. I've raised this as bug so we'll get it fixed in a future release._
 
 ### Amending `executeQuery`
 
