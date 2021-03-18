@@ -78,7 +78,7 @@ This section provides a short overview of the code, and links to more details in
 
 The [DbApi](../../../main/java/sqlinjection/insecuredb) class is vulnerable to SQL Injection it passes `String` into an `executeQuery` method.
 
-The [SecureDbApi](../../../main/java/sqlinjection/insecuredb) class is not vulnerable. The main difference is the use of `PreparedStatement`.
+The [SecureDbApi](../../../main/java/sqlinjection/secureddb) class is not vulnerable. The main difference is the use of `PreparedStatement`.
 
 The `basic-protection-set` Sensei cookbook can make the code changes required to convert the code in `DbApi` to use `PreparedStatement` but it worth examining the code to make sure you understand the differences.
 
