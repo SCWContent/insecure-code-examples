@@ -1,10 +1,9 @@
-package sqlinjection.dbcheck;
+package sqlinjection.tododb;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import sqlinjection.tododb.DbApi;
-import sqlinjection.tododb.MyDB;
+import sqlinjection.insecuredb.DbApi;
 
 
 import java.sql.SQLException;

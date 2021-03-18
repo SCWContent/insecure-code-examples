@@ -1,4 +1,4 @@
-package sqlinjection.tododb;
+package sqlinjection.insecuredb;
 
 import java.sql.*;
 import java.util.*;

@@ -1,11 +1,12 @@
-package sqlinjection.stringfield;
+package sqlinjection.insecuredb.stringfield;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import sqlinjection.tododb.DbApi;
+import sqlinjection.insecuredb.DbApi;
 import sqlinjection.tododb.MyDB;
 
 import java.util.ArrayList;
@@ -17,10 +18,10 @@ class SelectStringSQLInjectionsTest {
 
     /* examples of what SQL Injection is capable of */
 
-    static DbApi myDB;
+    DbApi myDB;
 
-    @BeforeAll
-    static void setupDB(){
+    @BeforeEach
+    void setupDB(){
         myDB = new DbApi(new MyDB().create());
     }
 
@@ -58,34 +59,34 @@ class SelectStringSQLInjectionsTest {
         List<Arguments> args = new ArrayList<>();
 
         // username, password, explanation
-        args.add(Arguments.of("' or 1=1 -- ",
+        args.add(Arguments.of("' or 1=1 -- ", Integer.valueOf(2),
                 "Get all users"));
-        args.add(Arguments.of("' or name LIKE='%admin'-- ", "",
+        args.add(Arguments.of("' or name LIKE '%admin' -- ", Integer.valueOf(1),
                 "Do not know any user names"));
         return args.stream();
     }
 
-    @ParameterizedTest(name = "get user where name='\"{0}\" - ({1})")
+    @ParameterizedTest(name = "get user where name= {0} {1} - ({2})")
     @MethodSource("userDetailsInjection")
-    void getUserDetails(String userDetails, String explanation) {
+    void getUserDetails(String userDetails, Integer minimum, String explanation) {
 
         System.out.println(explanation);
         List<Map<String, Object>> details = myDB.getUserDetails(userDetails);
 
         myDB.printMap(details);
 
-        Assertions.assertTrue(details.size() > 1, "Expected to get more details");
+        Assertions.assertTrue(details.size() >= minimum.intValue(), "Expected to get more details");
     }
 
     static Stream adminUserDetails() {
         List<Arguments> args = new ArrayList<>();
 
-        args.add(Arguments.of("' or name LIKE '%admin%'-- ", "",
+        args.add(Arguments.of("' or name LIKE '%admin%'-- ",
                 "Assume admin user has 'admin' in their name"));
         return args.stream();
     }
 
-    @ParameterizedTest(name = "get admin user where name='\"{0}\" - ({1})")
+    @ParameterizedTest(name = "get admin user where name='{0}' - ({1})")
     @MethodSource("adminUserDetails")
     void getAdminUserDetails(String userDetails, String explanation) {
 

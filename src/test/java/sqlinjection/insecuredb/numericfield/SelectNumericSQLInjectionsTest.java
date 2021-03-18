@@ -1,11 +1,12 @@
-package sqlinjection.numericfield;
+package sqlinjection.insecuredb.numericfield;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import sqlinjection.tododb.DbApi;
+import sqlinjection.insecuredb.DbApi;
 import sqlinjection.tododb.MyDB;
 
 
@@ -18,11 +19,12 @@ class SelectNumericSQLInjectionsTest {
 
     /* examples of what SQL Injection is capable of */
 
-    static DbApi myDB;
+    DbApi myDB;
     Integer field=0;
 
-    @BeforeAll
-    static void setupDB(){
+    // one of the injections is a drop tables so create db each time
+    @BeforeEach
+    void setupDB(){
         myDB = new DbApi(new MyDB().create());
     }
 

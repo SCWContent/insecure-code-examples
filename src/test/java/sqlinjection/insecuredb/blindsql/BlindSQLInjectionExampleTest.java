@@ -1,9 +1,9 @@
-package sqlinjection.blindsql;
+package sqlinjection.insecuredb.blindsql;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import sqlinjection.tododb.DbApi;
+import sqlinjection.insecuredb.DbApi;
 import sqlinjection.tododb.MyDB;
 
 
