@@ -4,15 +4,17 @@ A set of insecure code examples for demo purposes.
 
 ## Injection
 
-Injection is still the #1 Security Risk identified by OWASP.
+Injection is still the number one Security Risk identified by OWASP in their "Top Ten" project.
 
-- https://owasp.org/www-project-top-ten/2017/A1_2017-Injection
+- https://owasp.org/www-project-top-ten
 
 The [SQL Injection](src/test/java/sqlinjection) package contains examples for:
 
 - How SQL Injection can be exploited.
 - Sample code vulnerable to SQL Injection.
 - Sample secured code.
+
+[Learn more about SQL Injection](src/test/java/sqlinjection)
 
 ## Sensei
 

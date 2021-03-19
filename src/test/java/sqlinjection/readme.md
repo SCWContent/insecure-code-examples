@@ -2,14 +2,14 @@
 
 ## What is SQL Injection
 
-SQL Injection is when a user passes in to the application some data which is used directly in an SQL statement. This might be to:
+SQL Injection occurs when a user passes in to the application some data which is used directly in an SQL statement. This might allow them to:
 
-- view data the user does not have permission to see.
-- manipulate the database and create, amend or delete data in the database.
-- change the structure of the database by dropping tables
-- blind injection to 'guess' data or the structure of the database
+- View data the user does not have permission to see.
+- Manipulate the database and create, amend or delete data in the database.
+- Change the structure of the database by dropping tables.
+- Blind injection to 'guess' data or the structure of the database.
 
-SQL Injection is such a common attack vector for Hackers that tools such as [sqlmap](http://sqlmap.org/) exist to automate the process of detecting and exploiting the vulnerability.
+SQL Injection is such a common attack vector for Hackers that tools such as [sqlmap](https://github.com/sqlmapproject/sqlmap) exist to automate the process of detecting and exploiting the vulnerability.
 
 ## Real World
 
@@ -50,7 +50,7 @@ The following code is vulnerable to SQL Injection.
     }
 ~~~~~~~~
 
-Assuming that there are no additional input validations around the `status` `String` and that the `status` is passed in externally from the user, the above code is vulnerable to SQL Injection there the status could be amended from "1" to an SQL statement that retrieves  user names and passwords from the database:
+Assuming that there are no additional input validations around the `status` `String` and that the `status` is passed in externally from the user, the above code is vulnerable to SQL Injection. e.g. the status could be amended from "1" to an SQL statement that retrieves  user names and passwords from the database:
 
 ~~~~~~~~
 "-1 UNION SELECT name || '~' || password as description from users"
@@ -252,7 +252,6 @@ And now that the method is shown in the preview I can setup the arguments `args`
               "2": "{{{ . }}}"
 ```
 
-_Authors note: again, this wasn't as easy because there is no mustache template help for this in the GUI. We'll fix this in a future release._
 
 ## Complete
 
@@ -298,5 +297,7 @@ stm.setString(1, status);
 ResultSet res = stm.executeQuery();
 ```
 
+The recipes in the basic-protection-set are more advanced than this recipe and cover more variation in SQL Injection.
 
+- [github.com/SecureCodeWarrior/cookbook-basic-protection-set](https://github.com/SecureCodeWarrior/cookbook-basic-protection-set)
 

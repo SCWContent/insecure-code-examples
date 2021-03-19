@@ -1,7 +1,6 @@
 package sqlinjection.insecuredb.numericfield;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +19,6 @@ class SelectNumericSQLInjectionsTest {
     /* examples of what SQL Injection is capable of */
 
     DbApi myDB;
-    Integer field=0;
 
     // one of the injections is a drop tables so create db each time
     @BeforeEach
@@ -49,10 +47,6 @@ class SelectNumericSQLInjectionsTest {
 
         Assertions.assertEquals(3, descriptions.size());
         Assertions.assertEquals("Do this activity", descriptions.get(0));
-
-        //could be local
-        field = 2;
-
     }
 
 
@@ -86,6 +80,23 @@ class SelectNumericSQLInjectionsTest {
         Assertions.assertEquals(2, descriptions.size());
         Assertions.assertEquals("admin~root", descriptions.get(0));
         Assertions.assertEquals("bob~dobbs", descriptions.get(1));
+
+    }
+
+    /*
+        This test is a simpler example without the concatenation.
+     */
+    @Test
+    void UnionToPullNameFromAnotherTable() throws SQLException {
+
+        // get the admin user instead
+        String doneStatus = "-1 UNION SELECT name as description from users";
+
+        List<String> descriptions = myDB.getTodosOfStatus(doneStatus);
+
+        Assertions.assertEquals(2, descriptions.size());
+        Assertions.assertEquals("admin", descriptions.get(0));
+        Assertions.assertEquals("bob", descriptions.get(1));
 
     }
 
